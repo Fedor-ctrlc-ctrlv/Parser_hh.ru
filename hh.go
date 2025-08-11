@@ -1,11 +1,17 @@
 package main
 
 import (
+	"encoding/json"
+	"log"
+	"os"
+
 	"github.com/gocolly/colly"
 )
 
 type Work struct {
-	wname, money, company string
+	Wname   string `json:"wname"`
+	Money   string `json:"money"`
+	Company string `json:"company"`
 }
 
 func main() {
@@ -21,11 +27,11 @@ func main() {
 		if wname != "" || money != "" || company != "" {
 			work := Work{
 
-				wname: wname,
+				Wname: wname,
 
-				money: money,
+				Money: money,
 
-				company: company,
+				Company: company,
 			}
 
 			works = append(works, work)
@@ -33,4 +39,17 @@ func main() {
 		}
 	})
 	c.Visit("https://hh.ru/search/vacancy?text=&area=1&hhtmFrom=main&hhtmFromLabel=vacancy_search_line")
+	file, err := os.Create("vacancies.json")
+	if err != nil {
+		log.Fatal("Cannot create file:", err)
+	}
+	defer file.Close()
+
+	encoder := json.NewEncoder(file)
+	encoder.SetIndent("", "  ")
+	if err := encoder.Encode(works); err != nil {
+		log.Fatal("Error encoding JSON:", err)
+	}
+
+	log.Println("Данные успешно экспортированы в vacancies.json")
 }
