@@ -21,8 +21,8 @@ func main() {
 
 	c.OnHTML(".vacancy-info--ieHKDTkezpEj0Gsx", func(e *colly.HTMLElement) {
 		wname := e.ChildText("span[data-qa='serp-item__title-text']")
-		money := e.ChildText("magritte-text___pbpft_4-1-1 magritte-text_style-primary___AQ7MW_4-1-1 magritte-text_typography-label-1-regular___pi3R-_4-1-1")
-		company := e.ChildText("magritte-text___pbpft_4-1-1 magritte-text_style-primary___AQ7MW_4-1-1 magritte-text_typography-label-1-regular___pi3R-_4-1-1.magritte-text___tkzIl_6-0-4")
+		money := e.ChildText("span.magritte-text_typography-label-1-regular___pi3R-_4-1-1")
+		company := e.ChildText("span[data-qa='vacancy-serp__vacancy-employer-text']")
 
 		if wname != "" || money != "" || company != "" {
 			work := Work{
