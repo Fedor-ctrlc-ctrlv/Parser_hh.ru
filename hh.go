@@ -19,8 +19,8 @@ func main() {
 	var works []Work
 	c.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"
 
-	c.OnHTML(".magritte-redesign.vacancy-info--ieHKDTkezpEj0Gsx", func(e *colly.HTMLElement) {
-		wname := e.ChildText("magritte-text___tkzIl_6-0-4")
+	c.OnHTML(".vacancy-info--ieHKDTkezpEj0Gsx", func(e *colly.HTMLElement) {
+		wname := e.ChildText("span[data-qa='serp-item__title-text']")
 		money := e.ChildText("magritte-text___pbpft_4-1-1 magritte-text_style-primary___AQ7MW_4-1-1 magritte-text_typography-label-1-regular___pi3R-_4-1-1")
 		company := e.ChildText("magritte-text___pbpft_4-1-1 magritte-text_style-primary___AQ7MW_4-1-1 magritte-text_typography-label-1-regular___pi3R-_4-1-1.magritte-text___tkzIl_6-0-4")
 
