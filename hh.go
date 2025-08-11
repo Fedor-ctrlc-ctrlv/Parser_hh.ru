@@ -2,8 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/gocolly/colly"
 )
@@ -38,7 +40,23 @@ func main() {
 
 		}
 	})
-	c.Visit("https://hh.ru/search/vacancy?text=&area=1&hhtmFrom=main&hhtmFromLabel=vacancy_search_line")
+	//c.Visit("https://hh.ru/search/vacancy?text=&area=1&hhtmFrom=main&hhtmFromLabel=vacancy_search_line")
+	baseURL := "https://hh.ru/search/vacancy?text=&area=1&page=%d"
+	mPages := 5
+
+	for i := 0; i < mPages; i++ {
+		url := fmt.Sprintf(baseURL, i)
+		log.Printf("Парсинг страницы %d: %s", i, url)
+
+		err := c.Visit(url)
+		if err != nil {
+			log.Printf("Ошибка при парсинге страницы %d: %v", i, err)
+			continue
+		}
+
+		time.Sleep(2 * time.Second)
+	}
+
 	file, err := os.Create("vacancies.json")
 	if err != nil {
 		log.Fatal("Cannot create file:", err)
